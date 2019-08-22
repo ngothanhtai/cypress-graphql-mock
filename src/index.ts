@@ -104,9 +104,10 @@ Cypress.Commands.add(
       const originalFetch = win.fetch;
       function fetch(input: RequestInfo, init?: RequestInit) {
         if (typeof input !== "string") {
-          throw new Error(
-            "Currently only support fetch(url, options), saw fetch(Request)"
-          );
+          return originalFetch(input, init);
+          // throw new Error(
+          //   "Currently only support fetch(url, options), saw fetch(Request)"
+          // );
         }
         if (input.indexOf(endpoint) !== -1 && init && init.method === "POST") {
           const payload: GQLRequestPayload<AllOperations> = JSON.parse(
